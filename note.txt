@@ -1,0 +1,16 @@
+nlp: nlu -> 의도 분류, 감정분류 
+      nlg -> 번역, 생성
+
+KoAlpaca
+
+https://paperwhithcode.com
+
+interactive simulacra of human behavire
+
+copilot
+
+google bard
+
+the annotated transformer
+
+streamlit
