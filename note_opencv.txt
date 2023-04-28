@@ -80,3 +80,65 @@ nvidia deep learning high resolution 생성
 Lora 만들기
 스테이블 디퓨전 확장프로그램
 
+
+
+import keras
+from keras.layers import Input, Conv2D, BatchNormalization, MaxPooling2D, Flatten, Dense, Lambda
+from keras.models import Model
+from keras.optimizers import Adam
+from keras import backend as K
+from keras.preprocessing.image import ImageDataGenerator
+import numpy as np
+
+# define the FaceNet model architecture
+def create_facenet_model():
+    input_shape = (160, 160, 3)
+    input_tensor = Input(shape=input_shape)
+    x = Conv2D(filters=64, kernel_size=(3, 3), activation='relu')(input_tensor)
+    x = BatchNormalization()(x)
+    x = MaxPooling2D(pool_size=(2, 2))(x)
+    x = Conv2D(filters=128, kernel_size=(3, 3), activation='relu')(x)
+    x = BatchNormalization()(x)
+    x = MaxPooling2D(pool_size=(2, 2))(x)
+    x = Conv2D(filters=256, kernel_size=(3, 3), activation='relu')(x)
+    x = BatchNormalization()(x)
+    x = MaxPooling2D(pool_size=(2, 2))(x)
+    x = Conv2D(filters=512, kernel_size=(3, 3), activation='relu')(x)
+    x = BatchNormalization()(x)
+    x = Flatten()(x)
+    x = Dense(units=128, activation='relu')(x)
+    x = BatchNormalization()(x)
+    output_tensor = Dense(units=128, activation=None)(x)
+    output_tensor = Lambda(lambda x: K.l2_normalize(x, axis=1))(output_tensor)
+    facenet_model = Model(inputs=input_tensor, outputs=output_tensor)
+    return facenet_model
+
+# define the loss function for face verification
+def triplet_loss(y_true, y_pred, alpha=0.2):
+    anchor, positive, negative = y_pred[0], y_pred[1], y_pred[2]
+    pos_dist = K.sum(K.square(anchor - positive), axis=-1)
+    neg_dist = K.sum(K.square(anchor - negative), axis=-1)
+    basic_loss = pos_dist - neg_dist + alpha
+    loss = K.mean(K.maximum(basic_loss, 0.0), axis=None)
+    return loss
+
+# load the face data and create the training and validation sets
+train_dir = 'path/to/train/data'
+val_dir = 'path/to/val/data'
+
+train_generator = ImageDataGenerator(preprocessing_function=keras.applications.mobilenet_v2.preprocess_input)
+train_data = train_generator.flow_from_directory(train_dir, target_size=(160, 160), batch_size=32)
+
+val_generator = ImageDataGenerator(preprocessing_function=keras.applications.mobilenet_v2.preprocess_input)
+val_data = val_generator.flow_from_directory(val_dir, target_size=(160, 160), batch_size=32)
+
+# create the FaceNet model and compile it
+facenet_model = create_facenet_model()
+facenet_model.compile(optimizer=Adam(lr=0.001), loss=triplet_loss)
+
+# train the model
+history = facenet_model.fit(train_data, epochs=10, validation_data=val_data)
+
+# save the trained model
+facenet_model.save('path/to/save/model/facenet_model.h5')
+
