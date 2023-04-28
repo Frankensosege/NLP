@@ -1,0 +1,82 @@
+nvidia 3d사진
+
+깊이인식
+
+lunit insight <- dicom file
+Vuno
+
+확율
+pdf(확율밀도)
+cdf(누적 분포함수)
+cdf를 만족하는 pdf는 uniform이다.
+
+convolution
+color rgb -> hsv로 변환 v(명도체널)를 가지고 수행
+
+
+YOLO
+<환경>
+conda create -n yolo_v7 python==3.9
+git clone https://github.com/WongKinYiu/yolov7
+(yolo_v7) C:\Users\frank\Desktop\yolov7>pip install -r requirements.txt
+pytorch -> cuda 버전 확인하고 gpu 버전 설치 torch v1.12 해당 -> cuda 11.3
+https://github.com/WongKinYiu/yolov7 에 들어가 YOLOv7 을 다운해서 C:\Users\frank\Desktop\yolov7 에 넣는다
+<실행>
+python detect.py --weights yolov7.pt --conf 0.5 --img-size 640 --source dog.jpg
+
+Open CV
+<caffe>
+https://github.com/opencv/opencv/wiki/Deep-Learning-in-OpenCV 에서 사용하려는 모델에 들어간 후 모델파일 다운
+githup caffe ->caffe/models/bvlc_googlenet/deploy.prototxt 다운
+https://github.com/opencv/opencv/blob/4.x/samples/data/dnn/classification_classes_ILSVRC2012.txt #class names
+
+<ONNX>
+models/vision/classification/inception_and_googlenet/
+models/vision/classification/inception_and_googlenet/googlenet/model/googlenet-12.onnx
+
+<face detector>
+ssd : single shot detect --> 이걸 씀
+dsd : dual stage detect
+ 모델 받기 : 
+# caffe
+opencv/samples/dnn/face_detector/deploy.prototxt
+https://raw.githubusercontent.com/opencv/opencv_3rdparty/dnn_samples_face_detector_20180205_fp16/res10_300x300_ssd_iter_140000_fp16.caffemodel
+# tensorflow
+opencv/samples/dnn/face_detector/opencv_face_detector.pbtxt
+https://raw.githubusercontent.com/opencv/opencv_3rdparty/dnn_samples_face_detector_20180220_uint8/opencv_face_detector_uint8.pb 
+# yolo3
+https://github.com/opencv/opencv/wiki/Deep-Learning-in-OpenCV
+https://github.com/pjreddie/darknet/blob/master/data/coco.names
+
+VGGface2
+pip install tensorflow==2.10.1
+pip install -U tensorflow
+pip show keras-vggface
+pip install Keras-Applications
+https://keras.io/api/applications/
+
+
+pip freeze > requirements.txt
+
+
+토큰받아오기
+self.url = 'https://kauth.kakao.com/oauth/token'
+        self.client_id = 'fc175fc626464cb927d5eba82088378f'
+        self.redirect_uri = 'https://example.com/oauth'
+        self.code = 'cY_36wEDPJBnehQsJqAI3ZOodZ2ZX26tCeAlxaYQpjfbAls-SNwHmq9_LoyGXrHJFm1R8woqJVMAAAGHnS3AhQ'
+
+https://kauth.kakao.com/oauth/authorize?client_id=fc175fc626464cb927d5eba82088378f&redirect_uri=https://example.com/oauth&response_type=code 
+카톡 키값 : cY_36wEDPJBnehQsJqAI3ZOodZ2ZX26tCeAlxaYQpjfbAls-SNwHmq9_LoyGXrHJFm1R8woqJVMAAAGHnS3AhQ
+토큰을 주기적으로 갱신해야 하는 불편함 존재 (토큰 유효시간은 12시간 정도로 알고 있음)
+
+
+https://towardsdatascience.com/real-time-age-gender-and-emotion-prediction-from-webcam-with-keras-and-opencv-bde6220d60a
+
+
+ADsp, 빅데이터 분석기사(BD), ADP
+
+nvidia deep learning high resolution 생성
+
+Lora 만들기
+스테이블 디퓨전 확장프로그램
+
