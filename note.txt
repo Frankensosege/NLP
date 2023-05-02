@@ -14,3 +14,15 @@ google bard
 the annotated transformer
 
 streamlit
+
+MLOps. 엔지니어링 -->apache AirFlow, Flyte
+
+wandb.ai/site
+
+hugging face
+
+web crawling
+pip install fake-useragent
+
+
+linkedin: 경력 올릴 것
